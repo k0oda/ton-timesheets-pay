@@ -122,4 +122,8 @@ contract TimesheetsPay with Deployable {
     get fun balance(): String {
         return myBalance().toCoinsString();
     }
+
+    get fun seqno(): String {
+        return self.seqno.toString();
+    }
 }

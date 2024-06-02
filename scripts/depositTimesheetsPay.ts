@@ -14,31 +14,29 @@ export async function run(provider: NetworkProvider, args: string[]) {
 
     const timesheetsPay = provider.open(TimesheetsPay.fromAddress(address));
 
-    const counterBefore = await timesheetsPay.getCounter();
+    const counterBefore = await timesheetsPay.getBalance();
 
     await timesheetsPay.send(
         provider.sender(),
         {
-            value: toNano('0.05'),
+            value: toNano('100.00'),
         },
         {
-            $$type: 'Add',
-            queryId: 0n,
-            amount: 1n,
+            $$type: 'Deposit',
         }
     );
 
-    ui.write('Waiting for counter to increase...');
+    ui.write('Waiting for balance to increase...');
 
-    let counterAfter = await timesheetsPay.getCounter();
+    let balanceAfter = await timesheetsPay.getBalance();
     let attempt = 1;
-    while (counterAfter === counterBefore) {
+    while (balanceAfter === counterBefore) {
         ui.setActionPrompt(`Attempt ${attempt}`);
         await sleep(2000);
-        counterAfter = await timesheetsPay.getCounter();
+        balanceAfter = await timesheetsPay.getBalance();
         attempt++;
     }
 
     ui.clearActionPrompt();
-    ui.write('Counter increased successfully!');
+    ui.write('Balance increased successfully!');
 }

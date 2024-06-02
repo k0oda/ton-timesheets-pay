@@ -18,5 +18,5 @@ export async function run(provider: NetworkProvider) {
 
     await provider.waitForDeploy(timesheetsPay.address);
 
-    console.log('ID', await timesheetsPay.getId());
+    console.log('ID', await timesheetsPay.getSeqno());
 }
